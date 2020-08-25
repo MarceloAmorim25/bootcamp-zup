@@ -1,29 +1,27 @@
 package br.com.postgram.models;
 
-import javax.persistence.Entity;
+import java.time.OffsetDateTime;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
+public class Reply {
 
-@Data
-@Entity
-public class Message {
-	
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long id;
 	
 	@NotNull
-	@Size(min=1,max=300)
+	@Size(min=5, max=300)
 	private String content;
 	
 	@ManyToOne
-	private User user;
+	private Comment comment;
+	
+	@NotNull
+	private OffsetDateTime created_at;
 	
 }
