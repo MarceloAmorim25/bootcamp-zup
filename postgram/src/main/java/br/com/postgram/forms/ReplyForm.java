@@ -5,7 +5,7 @@ import javax.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class CommentForm {
+public class ReplyForm {
 
 	@NotBlank
 	private String content;
