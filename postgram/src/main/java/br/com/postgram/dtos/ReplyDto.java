@@ -1,6 +1,8 @@
 package br.com.postgram.dtos;
+import lombok.Data;
 
-public class CommentDto {
+@Data
+public class ReplyDto {
 
 	private Long id;
 	private String content;
