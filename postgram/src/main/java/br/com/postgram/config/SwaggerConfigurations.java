@@ -2,7 +2,6 @@ package br.com.postgram.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import br.com.postgram.models.User;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -21,5 +20,6 @@ public class SwaggerConfigurations {
 						.paths(PathSelectors.ant("/**"))
 						.build()
 						.ignoredParameterTypes(User.class);
+			
 		}
 }

@@ -2,20 +2,28 @@ package br.com.postgram.models;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 @Entity
-public class User {
+public class User implements UserDetails {
+
+	
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -23,7 +31,7 @@ public class User {
 	
 	@NotNull
 	@Size(min=2,max=40)
-	private String username;
+	private String name;
 	
 	@NotNull
 	@Email
@@ -32,55 +40,24 @@ public class User {
 	
 	@NotNull
 	@Size(min=12)
-	private String password;
+	private String userPassword;
 	
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Profile> profiles = new ArrayList<>();
+	
+
 	@OneToMany(mappedBy = "user")
 	private List<Post> posts = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user")
 	private List<Reply> replies = new ArrayList<>();
-	
-	@OneToMany(mappedBy = "user")
-	private List<Message> messages = new ArrayList<>();
-	
+		
 	@OneToMany(mappedBy = "user")
 	private List<Comment> comments = new ArrayList<>();
 		
 	private OffsetDateTime created_at;
+
 	
-	
-	public List<Post> getPosts() {
-		return posts;
-	}
-
-	public void setPosts(List<Post> posts) {
-		this.posts = posts;
-	}
-
-	public List<Reply> getReplies() {
-		return replies;
-	}
-
-	public void setReplies(List<Reply> replies) {
-		this.replies = replies;
-	}
-
-	public List<Message> getMessages() {
-		return messages;
-	}
-
-	public void setMessages(List<Message> messages) {
-		this.messages = messages;
-	}
-
-	public List<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -114,13 +91,6 @@ public class User {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
 
 	public String getEmail() {
 		return email;
@@ -128,14 +98,6 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public OffsetDateTime getCreated_at() {
@@ -146,6 +108,87 @@ public class User {
 		this.created_at = created_at;
 	}
 	
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+
+	public List<Reply> getReplies() {
+		return replies;
+	}
+
+	public void setReplies(List<Reply> replies) {
+		this.replies = replies;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getUserPassword() {
+		return userPassword;
+	}
+
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
 	
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		
+		return this.profiles;
+	}
+
+	@Override
+	public String getPassword() {
+		
+		return this.userPassword;
+	}
+
+	@Override
+	public String getUsername() {
+		
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		
+		return true;
+	}
 	
 }
