@@ -9,5 +9,5 @@ public class ReplyForm {
 
 	@NotBlank
 	private String content;
-	
+
 }

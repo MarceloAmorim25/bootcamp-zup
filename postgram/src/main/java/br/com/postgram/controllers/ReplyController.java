@@ -18,30 +18,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.postgram.models.User;
-import br.com.postgram.repositories.UserRepository;
+import br.com.postgram.models.Reply;
+import br.com.postgram.repositories.ReplyRepository;
+
 
 @RestController
-@RequestMapping("/users")
-public class UserController {
-
+@RequestMapping("/replies")
+public class ReplyController {
+	
 	@Autowired
-	private UserRepository userRepository;
+	private ReplyRepository replyRepository;
 
 		
 	@GetMapping
-	public List<User> listar() {
-		return userRepository.findAll();
+	public List<Reply> listar() {
+		return replyRepository.findAll();
 	}
 
 	
-	@GetMapping("/{userId}")
-	public ResponseEntity<User> buscarPorId(@PathVariable Long userId) {
+	@GetMapping("/{replyId}")
+	public ResponseEntity<Reply> buscarPorId(@PathVariable Long replyId) {
 		
-		Optional<User> user = userRepository.findById(userId);
+		Optional<Reply> reply = replyRepository.findById(replyId);
 		
-		if(user.isPresent()) {
-			return ResponseEntity.ok(user.get());
+		if(reply.isPresent()) {
+			return ResponseEntity.ok(reply.get());
 		}
 						
 		return ResponseEntity.notFound().build();	
@@ -50,42 +51,42 @@ public class UserController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public User cadastrar(@Valid @RequestBody User user) {
+	public Reply cadastrar(@Valid @RequestBody Reply reply) {
 		
-		return userRepository.save(user);
+		return replyRepository.save(reply);
 		
 	}
 	
 	
-	@PutMapping("/{userId}")
-	public ResponseEntity<User> atualizar(@Valid @PathVariable Long userId,
-			@RequestBody User user) {
+	@PutMapping("/{replyId}")
+	public ResponseEntity<Reply> atualizar(@Valid @PathVariable Long replyId,
+			@RequestBody Reply reply) {
 		
-		if(!userRepository.existsById(userId)) {
+		if(!replyRepository.existsById(replyId)) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		user.setId(userId);
-		userRepository.save(user);
+		reply.setId(replyId);
+		replyRepository.save(reply);
 		
-		return ResponseEntity.ok(user);
+		return ResponseEntity.ok(reply);
 	}
 	
 	
-	@DeleteMapping("/{userId}")
+	@DeleteMapping("/{replyId}")
 	public ResponseEntity<Void> delete(@PathVariable Long replyId){
 		
-		if(!userRepository.existsById(replyId)) {
+		if(!replyRepository.existsById(replyId)) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		User user = userRepository
+		Reply reply = replyRepository
 				.findById(replyId)
 				.orElseThrow();
 		
-		userRepository.delete(user);
+		replyRepository.delete(reply);
 		
 		return ResponseEntity.noContent().build();
 	}
-	
+
 }
