@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -19,6 +21,12 @@ public class Reply {
 	@NotNull
 	@Size(min=5, max=300)
 	private String content;
+	
+	@ManyToOne
+	private User user;
+	
+	@ManyToOne
+	private Comment comment;
 	
 	private OffsetDateTime created_at;
 	
