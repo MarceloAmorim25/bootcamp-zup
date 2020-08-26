@@ -1,9 +1,12 @@
 package br.com.postgram.models;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -18,7 +21,9 @@ public class Message {
 	@Size(min=1,max=300)
 	private String content;
 	
-
+	@ManyToOne
+	private User user;
+		
 	public Long getId() {
 		return id;
 	}
@@ -35,5 +40,4 @@ public class Message {
 		this.content = content;
 	}
 
-	
 }
