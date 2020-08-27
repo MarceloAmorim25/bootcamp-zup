@@ -73,14 +73,14 @@ public class UserController {
 	
 	
 	@DeleteMapping("/{userId}")
-	public ResponseEntity<Void> delete(@PathVariable Long replyId){
+	public ResponseEntity<Void> delete(@PathVariable Long userId){
 		
-		if(!userRepository.existsById(replyId)) {
+		if(!userRepository.existsById(userId)) {
 			return ResponseEntity.notFound().build();
 		}
 		
 		User user = userRepository
-				.findById(replyId)
+				.findById(userId)
 				.orElseThrow();
 		
 		userRepository.delete(user);

@@ -46,9 +46,11 @@ public class User implements UserDetails {
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Profile> profiles = new ArrayList<>();
 	
-
 	@OneToMany(mappedBy = "user")
 	private List<Post> posts = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "user")
+	private List<Friend> friends = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user")
 	private List<Reply> replies = new ArrayList<>();
@@ -115,6 +117,14 @@ public class User implements UserDetails {
 
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
+	}
+	
+	public List<Friend> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(List<Friend> friends) {
+		this.friends = friends;
 	}
 
 	public List<Reply> getReplies() {

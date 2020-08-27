@@ -35,6 +35,7 @@ public class Comment {
 	
 	private OffsetDateTime created_at;
 	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
