@@ -1,10 +1,7 @@
 package br.com.postgram.controllers;
 
 import java.util.List;
-import java.util.Optional;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import br.com.postgram.models.Reply;
 import br.com.postgram.repositories.ReplyRepository;
 
@@ -31,27 +27,14 @@ public class ReplyController {
 
 		
 	@GetMapping
-	public List<Reply> listar() {
+	public List<Reply> getAll() {
 		return replyRepository.findAll();
 	}
 
 	
-	@GetMapping("/{replyId}")
-	public ResponseEntity<Reply> buscarPorId(@PathVariable Long replyId) {
-		
-		Optional<Reply> reply = replyRepository.findById(replyId);
-		
-		if(reply.isPresent()) {
-			return ResponseEntity.ok(reply.get());
-		}
-						
-		return ResponseEntity.notFound().build();	
-	}
-	
-	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Reply cadastrar(@Valid @RequestBody Reply reply) {
+	public Reply create(@Valid @RequestBody Reply reply) {
 		
 		return replyRepository.save(reply);
 		
@@ -59,7 +42,7 @@ public class ReplyController {
 	
 	
 	@PutMapping("/{replyId}")
-	public ResponseEntity<Reply> atualizar(@Valid @PathVariable Long replyId,
+	public ResponseEntity<Reply> update(@Valid @PathVariable Long replyId,
 			@RequestBody Reply reply) {
 		
 		if(!replyRepository.existsById(replyId)) {

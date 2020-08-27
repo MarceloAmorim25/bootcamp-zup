@@ -18,6 +18,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 public class User implements UserDetails {
@@ -145,7 +146,10 @@ public class User implements UserDetails {
 	}
 
 	public void setUserPassword(String userPassword) {
-		this.userPassword = userPassword;
+		
+		String encrypted = new BCryptPasswordEncoder().encode(userPassword);
+		
+		this.userPassword = encrypted;
 	}
 	
 

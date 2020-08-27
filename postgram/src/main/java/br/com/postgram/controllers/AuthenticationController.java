@@ -33,6 +33,7 @@ public class AuthenticationController {
 		UsernamePasswordAuthenticationToken userData = form.convert();
 		
 		try {
+			System.out.println(userData);
 			
 			Authentication authentication = authManager.authenticate(userData);
 			

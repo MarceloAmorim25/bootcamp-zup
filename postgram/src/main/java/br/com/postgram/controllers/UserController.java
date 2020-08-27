@@ -30,13 +30,13 @@ public class UserController {
 
 		
 	@GetMapping
-	public List<User> listar() {
+	public List<User> getAll() {
 		return userRepository.findAll();
 	}
 
 	
 	@GetMapping("/{userId}")
-	public ResponseEntity<User> buscarPorId(@PathVariable Long userId) {
+	public ResponseEntity<User> getById(@PathVariable Long userId) {
 		
 		Optional<User> user = userRepository.findById(userId);
 		
@@ -50,7 +50,7 @@ public class UserController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public User cadastrar(@Valid @RequestBody User user) {
+	public User create(@Valid @RequestBody User user) {
 		
 		return userRepository.save(user);
 		
@@ -58,7 +58,7 @@ public class UserController {
 	
 	
 	@PutMapping("/{userId}")
-	public ResponseEntity<User> atualizar(@Valid @PathVariable Long userId,
+	public ResponseEntity<User> update(@Valid @PathVariable Long userId,
 			@RequestBody User user) {
 		
 		if(!userRepository.existsById(userId)) {

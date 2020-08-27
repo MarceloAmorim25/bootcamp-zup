@@ -31,13 +31,13 @@ public class PostController {
 
 		
 	@GetMapping
-	public List<Post> listar() {
+	public List<Post> getAll() {
 		return postRepository.findAll();
 	}
 
 	
 	@GetMapping("/{postId}")
-	public ResponseEntity<Post> buscarPorId(@PathVariable Long postId) {
+	public ResponseEntity<Post> getById(@PathVariable Long postId) {
 		
 		Optional<Post> post = postRepository.findById(postId);
 		
@@ -51,7 +51,7 @@ public class PostController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Post cadastrar(@Valid @RequestBody Post post) {
+	public Post create(@Valid @RequestBody Post post) {
 		
 		return postRepository.save(post);
 		
@@ -59,7 +59,7 @@ public class PostController {
 	
 	
 	@PutMapping("/{postId}")
-	public ResponseEntity<Post> atualizar(@Valid @PathVariable Long postId,
+	public ResponseEntity<Post> update(@Valid @PathVariable Long postId,
 			@RequestBody Post post) {
 		
 		if(!postRepository.existsById(postId)) {

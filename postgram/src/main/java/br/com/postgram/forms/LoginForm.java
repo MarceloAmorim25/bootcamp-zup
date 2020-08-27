@@ -2,12 +2,11 @@ package br.com.postgram.forms;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
+
 public class LoginForm {
 	
 	private String email;
 	private String userPassword;
-	
-	
 	
 	public String getEmail() {
 		return email;
@@ -19,13 +18,12 @@ public class LoginForm {
 		this.email = email;
 	}
 	public void setUserPassword(String userPassword) {
+			
 		this.userPassword = userPassword;
 	}
 	public UsernamePasswordAuthenticationToken convert() {
 
 		return new UsernamePasswordAuthenticationToken(email, userPassword);
 	}
-	
-	
 	
 }

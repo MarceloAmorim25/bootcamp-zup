@@ -1,10 +1,7 @@
 package br.com.postgram.controllers;
 
 import java.util.List;
-import java.util.Optional;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,27 +27,14 @@ public class CommentController {
 
 		
 	@GetMapping
-	public List<Comment> listar() {
+	public List<Comment> getAll() {
 		return commentRepository.findAll();
 	}
 
 	
-	@GetMapping("/{postId}")
-	public ResponseEntity<Comment> buscarPorId(@PathVariable Long postId) {
-		
-		Optional<Comment> comment = commentRepository.findById(postId);
-		
-		if(comment.isPresent()) {
-			return ResponseEntity.ok(comment.get());
-		}
-						
-		return ResponseEntity.notFound().build();		
-	}
-	
-	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Comment cadastrar(@Valid @RequestBody Comment comment) {
+	public Comment create(@Valid @RequestBody Comment comment) {
 		
 		return commentRepository.save(comment);
 		
@@ -58,7 +42,7 @@ public class CommentController {
 	
 	
 	@PutMapping("/{postId}")
-	public ResponseEntity<Comment> atualizar(@Valid @PathVariable Long commentId,
+	public ResponseEntity<Comment> update(@Valid @PathVariable Long commentId,
 			@RequestBody Comment comment) {
 		
 		if(!commentRepository.existsById(commentId)) {
