@@ -14,12 +14,20 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import br.com.postgram.repositories.UserRepository;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private AuthenticationService autenticacaoService;
+	
+	@Autowired
+	private TokenService tokenService;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Override
 	@Bean
@@ -36,24 +44,21 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
 		http
 			.authorizeRequests()
 			.antMatchers(HttpMethod.POST, "/users").permitAll()
 			.antMatchers(HttpMethod.POST, "/auth").permitAll()
-			.antMatchers("/swagger-ui.html").permitAll()
 			.anyRequest().authenticated()
 			.and().csrf().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			.and().addFilterBefore(new AuthenticationByToken(), UsernamePasswordAuthenticationFilter.class);
+			.and().addFilterBefore(new AuthenticationByToken(tokenService, userRepository), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(new BCryptPasswordEncoder().encode("encryptedPassword-NoFlagsHere"));
+		 web.ignoring()
+	        .antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");
 	}
 	
 }
