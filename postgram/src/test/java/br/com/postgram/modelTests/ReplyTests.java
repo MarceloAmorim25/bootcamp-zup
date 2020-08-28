@@ -7,32 +7,31 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import br.com.postgram.models.User;
-import br.com.postgram.repositories.UserRepository;
+import br.com.postgram.models.Reply;
+import br.com.postgram.repositories.ReplyRepository;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserTests {
+public class ReplyTests {
 	
 	@Autowired
-	private UserRepository userRepository;
+	private ReplyRepository replyRepository;
 
 	@Test
 	public void shouldBeOkToInstanciatePostClass() {
 		
 		//arrange
-		User user = new User();	
-		user.setName("testName");
-		user.setEmail("testEmail@email.com");
-		user.setUserPassword("testPassword");
+		Reply reply = new Reply();	
+		reply.setContent("lorem ipsum lorem ipsum lorem ipsum");
 	
 		//act
 		
-		userRepository.save(user);
+		replyRepository.save(reply);
 		
 		//assert	
-		assertThat(user).isNotNull();
-		assertThat(user.getId()).isNotNull();
+		assertThat(reply).isNotNull();
+		assertThat(reply.getId()).isNotNull();
 		
 	}
 

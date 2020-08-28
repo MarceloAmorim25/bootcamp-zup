@@ -1,10 +1,6 @@
 package br.com.postgram.controllers;
 
-import java.util.List;
-import java.util.Optional;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,50 +10,47 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.postgram.dtos.UserDto;
 import br.com.postgram.models.User;
 import br.com.postgram.repositories.UserRepository;
 
 @RestController
-@RequestMapping("/users")
 public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
 
-		
-	@GetMapping
-	public List<User> getAll() {
-		return userRepository.findAll();
-	}
 
-	
-	@GetMapping("/{userId}")
-	public ResponseEntity<User> getById(@PathVariable Long userId) {
+	@GetMapping("/users/{userId}")
+	public UserDto getById(@PathVariable Long userId) {
 		
-		Optional<User> user = userRepository.findById(userId);
+		User user = userRepository.findById(userId).orElseThrow();
 		
-		if(user.isPresent()) {
-			return ResponseEntity.ok(user.get());
-		}
-						
-		return ResponseEntity.notFound().build();	
+		UserDto userDto = new UserDto(user);
+		
+	    return userDto;	
+					
 	}
 	
 	
-	@PostMapping
+	@PostMapping("/users")
 	@ResponseStatus(HttpStatus.CREATED)
-	public User create(@Valid @RequestBody User user) {
+	public ResponseEntity<User> create(@Valid @RequestBody User user) {
 		
-		return userRepository.save(user);
-		
+		if(user != null) {
+			
+			userRepository.save(user);
+			return ResponseEntity.ok(user);
+		}
+			
+		return ResponseEntity.noContent().build();
 	}
 	
 	
-	@PutMapping("/{userId}")
+	@PutMapping("/users/{userId}")
 	public ResponseEntity<User> update(@Valid @PathVariable Long userId,
 			@RequestBody User user) {
 		
@@ -72,7 +65,7 @@ public class UserController {
 	}
 	
 	
-	@DeleteMapping("/{userId}")
+	@DeleteMapping("/users/{userId}")
 	public ResponseEntity<Void> delete(@PathVariable Long userId){
 		
 		if(!userRepository.existsById(userId)) {

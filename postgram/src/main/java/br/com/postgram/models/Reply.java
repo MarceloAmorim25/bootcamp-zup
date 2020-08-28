@@ -22,6 +22,9 @@ public class Reply {
 	private String content;
 	
 	@ManyToOne
+	private Post post;
+	
+	@ManyToOne
 	private User user;
 	
 	@ManyToOne
@@ -76,6 +79,30 @@ public class Reply {
 
 	public void setCreated_at(OffsetDateTime created_at) {
 		this.created_at = created_at;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Comment getComment() {
+		return comment;
+	}
+
+	public void setComment(Comment comment) {
+		this.comment = comment;
+	}
+
+	public Post getPost() {
+		return post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
 	}
 	
 	

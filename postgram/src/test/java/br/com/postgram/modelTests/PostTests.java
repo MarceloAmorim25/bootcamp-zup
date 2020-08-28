@@ -36,8 +36,4 @@ class PostTests {
 		
 	}
 	
-	@Test
-	public void shouldValidateAtributtesValues() {
-		
-	}
 }

@@ -52,7 +52,7 @@ public class UserForm {
 		this.password = password;
 	}
 	
-	public User convertTypeToReply() {
+	public User convertTypeToUser() {
 		
 		User user = new User();	
 		

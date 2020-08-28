@@ -30,6 +30,7 @@ public class Post {
 	@OneToMany(mappedBy = "post")
 	private List<Comment> comments = new ArrayList<>();
 	
+
 	private OffsetDateTime created_at;
 		
 	@Override
@@ -82,6 +83,21 @@ public class Post {
 		this.created_at = created_at;
 	}
 	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
 	
 
 }

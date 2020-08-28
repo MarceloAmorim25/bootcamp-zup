@@ -51,12 +51,6 @@ public class User implements UserDetails {
 	
 	@OneToMany(mappedBy = "user")
 	private List<Friend> friends = new ArrayList<>();
-	
-	@OneToMany(mappedBy = "user")
-	private List<Reply> replies = new ArrayList<>();
-		
-	@OneToMany(mappedBy = "user")
-	private List<Comment> comments = new ArrayList<>();
 		
 	private OffsetDateTime created_at;
 
@@ -125,22 +119,6 @@ public class User implements UserDetails {
 
 	public void setFriends(List<Friend> friends) {
 		this.friends = friends;
-	}
-
-	public List<Reply> getReplies() {
-		return replies;
-	}
-
-	public void setReplies(List<Reply> replies) {
-		this.replies = replies;
-	}
-
-	public List<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
 	}
 
 	public String getName() {
