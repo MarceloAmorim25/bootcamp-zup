@@ -2,7 +2,7 @@
 
     API para aplicação do tipo Instagram.
     
-    ![autentica](/readme-images/autentica.png?raw=true)
+    ![](https://github.com/MarceloAmorim25/bootcamp-zup/blob/master/readme-images/autentica.png)
 
 ### executando a API
 
