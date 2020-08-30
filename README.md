@@ -149,6 +149,7 @@
 
 Ficamos, então, com dois usuários criados, login feito, post publicado, follow do usuário 2 no usuário 1 e vice versa, comentário do usuário 2 no post do usuário 1 e uma réplica no comentário.
 
+```
 {
   "id": 1,
   "username": "usuário 1",
@@ -178,7 +179,7 @@ Ficamos, então, com dois usuários criados, login feito, post publicado, follow
     }
   ]
 }
-    
+```    
 
 ## uma ideia de como vai ficar o visual
 
