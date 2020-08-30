@@ -12,7 +12,7 @@
 
 ## sobre o projeto
 
-- A ideia do projeto é simples e visa atender dois eixos centrais:
+### A ideia do projeto é simples e visa atender dois eixos centrais:
 
 (a). Listar recursos centrais para o funcionamento da aplicação. Quais são esses recursos a serem listados? Postagens, comentários e as respostas aos comentários
 (threads possíveis de serem feitas em cada comentário - aqui chamei de reply).
@@ -25,42 +25,88 @@
       
 ## O que é possível fazer com essa API?
 
-- Um esquema inicial de tabelas para o banco de dados
+### Um esquema inicial de tabelas para o banco de dados
+
+
 
 ![](/readme-images/schema.png)
 
-- Sobre como ficaram os endpoints =>
+
+
+
+## Sobre como ficaram os endpoints =>
 	
-- Panorama geral da aplicação
+### Panorama geral da aplicação
+
+
+
 	
 ![](/readme-images/panorama-geral-swagger.png)
+
+
 	
-- User controller: é possível criar, atualizar e deletar um usuário.
+### User controller: é possível criar, atualizar e deletar um usuário.
+
+
 	
 ![](/readme-images/user-controller.png)
+
+
 	
-- A autenticação está funcionando e gerando um token no formato Json Web Token(JWT) para autorizar o acesso a recursos e autenticar o usuário.
+### A autenticação está funcionando e gerando um token no formato Json Web Token(JWT) para autorizar o acesso a recursos e autenticar o usuário.
+
+
 	
 ![](/readme-images/autentica.png)
+
+
+
+
 	
-- Esse controller permite dar follow ou unfollow e assim interagir na rede social.
+### Esse controller permite dar follow ou unfollow e assim interagir na rede social.
+
+
+
 	
 ![](/readme-images/friend-controller.png)
+
+
+
+
 	
-- O post controller permite criar posts, listar postagens pelo id do usuário (página de perfil do usuário), deletar, atualizar e listar pelo id do post (no caso de uma postagem ser selecionada para leitura única na tela).
+### O post controller permite criar posts, listar postagens pelo id do usuário (página de perfil do usuário), deletar, atualizar e listar pelo id do post (no caso de uma postagem ser selecionada para leitura única na tela).
+
+
+
 	
 ![](/readme-images/post-controller.png)
+
+
+
 	
-- É possível comentar, atualizar o comentário e deletar.
+### É possível comentar, atualizar o comentário e deletar.
+
+
+
 	
 ![](/readme-images/comment-controller.png)
+
+
+
 	
-- Também é possível criar threads nos comentários com uma lista de replies.
+### Também é possível criar threads nos comentários com uma lista de replies.
+
+
 	
 ![](/readme-images/reply-controller.png)
 
 
+
+
+
 ## segurança
+
+
 
     - Como a aplicação dialoga com o OWASP Top Ten?
 
@@ -95,8 +141,7 @@
     Nas validações das classes Model utilizou-se um regex para dificultar ataques Cross-site Scripting do tipo storage, já que que não seria possível enviar um campo de texto com tags script nem utilizando notações alternativas.
     
     @Pattern(regexp = "^[a-zA-Z0-9 .-]+$")
-    
-    
+     
     8. Insecure Deserialization
     
     Soluções em desenvolvimento...
@@ -112,10 +157,12 @@
 
 ## uma ideia de como vai ficar o visual
 
+
     - frontend em desenvolvimento :)
 
 
 ## referências de pesquisa e observações
+
 
 OWASP Top Ten - https://owasp.org/www-project-top-ten/ -> serviu como referência para avaliar qual rumo, em relação a segurança, que o projeto estava tomando.
 
