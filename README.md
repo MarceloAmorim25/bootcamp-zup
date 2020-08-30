@@ -4,6 +4,16 @@
     
 ![](/readme-images/postgramlogo.png)
 
+## executando a API
+
+  git clone https://github.com/MarceloAmorim25/bootcamp-zup.git
+
+  cd bootcamp-zup/postgram
+
+  ./mvnw spring-boot:run
+
+  obs.: se aparecer algum erro com as dependências dos testes, fui na aba Maven -> Update Project e atualizei lá marcando a caixa Force update of snapshots/releases e funcionou.
+
 ## sobre o projeto
 
 ### A ideia do projeto é simples e visa atender dois eixos centrais:
@@ -183,7 +193,9 @@ Ficamos, então, com dois usuários criados, login feito, post publicado, follow
 
 ## referências de pesquisa e observaçõe
 
-Observação: eu alterei aqui a parte inicial do readme depois que enviei o repositório pelo email (percebi um erro na parte inicial de execução do projeto). Como ainda é domingo e o prazo ainda não expirou, acho que não tem problema. Qualquer coisa, se não for permitido, considerem até o último commit até o horário do envio pelo email. Mas a alteração foi bem pequena mesmo.
+Observação 1: eu alterei aqui a parte inicial do readme depois que enviei o repositório pelo email (percebi um erro na parte inicial de instrução de execução do projeto e faltou a observação sobre os testes). Como ainda é domingo e o prazo ainda não expirou, acho que não tem problema. Qualquer coisa, se não for permitido, considerem até o último commit até o horário do envio pelo email. Mas a alteração foi bem pequena mesmo.
+
+Observação 2: tem um teste que não tá passando mesmo, deixei mais pelo tanto de tempo que investi tentando fazer funcionar. Fica como registro aí da tragetória do desenvolvimento do projeto.
 
 OWASP Top Ten - https://owasp.org/www-project-top-ten/ -> serviu como referência para avaliar qual rumo, em relação à segurança, o projeto estava tomando. Obviamente de forma inicial, sem muito rigor, tendo em vista a fase muito inicial de desenvolvimento. Foi utilizado de forma bem superficial mesmo. Apenas para autocrítica quanto a alguns aspectos do projeto.
 
