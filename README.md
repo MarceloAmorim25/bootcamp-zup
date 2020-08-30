@@ -151,14 +151,11 @@ Ficamos, então, com dois usuários criados, login feito, post publicado, follow
 
 {
   "id": 1,
-
   "username": "usuário 1",
-
   "posts": [
     {
       "id": 1,
       "description": "descrição da postagem para o Postgram",
-
       "comments": [
         {
           "id": 1,
@@ -170,20 +167,16 @@ Ficamos, então, com dois usuários criados, login feito, post publicado, follow
               "content": "réplica  onde o usuário 2 vai no post 1 fazer uma thread no comentário 1"
             }
           ]
-
         }
       ]
-
     }
   ],
-
   "friends": [
     {
       "id": 2,
       "username": "usuário 2"
     }
   ]
-
 }
     
 
