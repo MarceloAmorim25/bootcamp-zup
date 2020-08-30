@@ -4,12 +4,6 @@
     
 ![](/readme-images/postgramlogo.png)
 
-## executando a API
-
-    - git clone url
-    - cd bootcamp-zup
-    - ./mvnw clean spring-boot:run
-
 ## sobre o projeto
 
 ### A ideia do projeto é simples e visa atender dois eixos centrais:
@@ -187,8 +181,9 @@ Ficamos, então, com dois usuários criados, login feito, post publicado, follow
     - frontend em desenvolvimento :)
 
 
-## referências de pesquisa e observações
+## referências de pesquisa e observaçõe
 
+Observação: eu alterei aqui a parte inicial do readme depois que enviei o repositório pelo email (percebi um erro na parte inicial de execução do projeto). Como ainda é domingo e o prazo ainda não expirou, acho que não tem problema. Qualquer coisa, se não for permitido, considerem até o último commit até o horário do envio pelo email. Mas a alteração foi bem pequena mesmo.
 
 OWASP Top Ten - https://owasp.org/www-project-top-ten/ -> serviu como referência para avaliar qual rumo, em relação à segurança, o projeto estava tomando. Obviamente de forma inicial, sem muito rigor, tendo em vista a fase muito inicial de desenvolvimento. Foi utilizado de forma bem superficial mesmo. Apenas para autocrítica quanto a alguns aspectos do projeto.
 
