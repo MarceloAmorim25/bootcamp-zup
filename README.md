@@ -2,7 +2,7 @@
 
     API para aplicação do tipo Instagram.
     
-    ![](/readme-images/postgramlogo.png)
+    ![autentica](/readme-images/autentica.png?raw=true)
 
 ### executando a API
 
