@@ -34,16 +34,17 @@ public class FriendController{
 		User friendToAdd = userRepository.findById(friendId).orElseThrow();
 				
 		Friend friend = new Friend();
-		
+	
 		friend.setName(friendToAdd.getName());
 		friend.setUser(user);
-		friend.setEmail(friendToAdd.getEmail());
+		friend.setEmail(friendToAdd.getEmail());		
 		friend.setId(friendId);
 		
 		friendRepository.save(friend);
 
 		List<Friend> friends = user.getFriends();
 		friends.add(friend);
+		
 				
 		user.setFriends(friends);
 		user.setId(userId);

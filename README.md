@@ -101,58 +101,96 @@
 ![](/readme-images/reply-controller.png)
 
 
+## Um exemplo de utilização
+
+### criar usuário 1
 
 
-
-## segurança
-
+![](/readme-images/passo1.png)
 
 
-    - Como a aplicação dialoga com o OWASP Top Ten?
+### criar usuário 2
 
-    1. Injection
-    
-    O seguinte regex pode contribuir para evitar ataques do tipo SQL injection, evitando a sintexe comum às queries. Apesar da ORM do Spring já implementar medidas com SQLi, aumentar o grau de segurança sempre pode evitar ataques não previstos.
-    
-    @Pattern(regexp = "^[a-zA-Z0-9 .-]+$")
-    
-    2. Broken Authentication
-    
-    Utilizou um token gerado no formato JWT como forma de autenticar o usuário. Esse padrão tem sido bastante utilizado e, apesar de provavelmente possuir vulnerabilidades, apresenta segurança considerável. O token possui tempo breve de expiração.
-    
-    3. Sensitive Data Exposure
-    
-    Soluções em desenvolvimento...
-    
-    4. XML External Entities (XXE)
-    
-    Soluções em desenvolvimento...
-    
-    5. Broken Access Control
-    
-    Soluções em desenvolvimento...
-    
-    6. Security Misconfiguration
-    
-    Soluções em desenvolvimento...
-    
-    7. Cross-Site Scripting (XSS)
-    
-    Nas validações das classes Model utilizou-se um regex para dificultar ataques Cross-site Scripting do tipo storage, já que que não seria possível enviar um campo de texto com tags script nem utilizando notações alternativas.
-    
-    @Pattern(regexp = "^[a-zA-Z0-9 .-]+$")
-     
-    8. Insecure Deserialization
-    
-    Soluções em desenvolvimento...
-    
-    9. Using Components with Known Vulnerabilities
-    
-    Soluções em desenvolvimento...
-      
-    10. Insufficiente Logging & Monitoring
-    
-    Soluções em desenvolvimento...
+
+![](/readme-images/passo2.png)
+
+
+### login 1
+
+
+![](/readme-images/passo3.png)
+
+
+### usuário 2 adiciona usuário 1
+
+
+![](/readme-images/passo4.png)
+
+
+### usuário 1 adiciona usuário 2
+
+
+![](/readme-images/passo5.png)
+
+
+### postar
+
+
+![](/readme-images/passo6.png)
+
+
+### comentar
+
+
+![](/readme-images/passo7.png)
+
+
+### replica
+
+
+![](/readme-images/passo8.png)
+
+
+### listar o usuário (GET /users/1)
+
+Ficamos, então, com dois usuários criados, login feito, post publicado, follow do usuário 2 no usuário 1 e vice versa, comentário do usuário 2 no post do usuário 1 e uma réplica no comentário.
+
+{
+  "id": 1,
+
+  "username": "usuário 1",
+
+  "posts": [
+    {
+      "id": 1,
+      "description": "descrição da postagem para o Postgram",
+
+      "comments": [
+        {
+          "id": 1,
+          "content": "teste comentario do usuário 2 na postagem 1",
+
+          "replies": [
+            {
+              "id": 1,
+              "content": "réplica  onde o usuário 2 vai no post 1 fazer uma thread no comentário 1"
+            }
+          ]
+
+        }
+      ]
+
+    }
+  ],
+
+  "friends": [
+    {
+      "id": 2,
+      "username": "usuário 2"
+    }
+  ]
+
+}
     
 
 ## uma ideia de como vai ficar o visual
@@ -164,7 +202,7 @@
 ## referências de pesquisa e observações
 
 
-OWASP Top Ten - https://owasp.org/www-project-top-ten/ -> serviu como referência para avaliar qual rumo, em relação a segurança, que o projeto estava tomando.
+OWASP Top Ten - https://owasp.org/www-project-top-ten/ -> serviu como referência para avaliar qual rumo, em relação à segurança, o projeto estava tomando. Obviamente de forma inicial, sem muito rigor, tendo em vista a fase muito inicial de desenvolvimento. Foi utilizado de forma bem superficial mesmo. Apenas para autocrítica quanto a alguns aspectos do projeto.
 
 FuzzDB Project - https://github.com/fuzzdb-project/fuzzdb -> a idéia era fazer alguns testes automatizados com alguns ataques já bastante conhecidos e testar a resposta da aplicação a alguns tipos de SQL injection e XSS. Não consegui implementar, mas fica como projeto futuro.
 

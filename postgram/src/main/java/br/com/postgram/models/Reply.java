@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -20,7 +19,6 @@ public class Reply {
 	
 	@NotBlank
 	@Size(min=5, max=300)
-	@Pattern(regexp = "^[a-zA-Z0-9 .-]+$") 
 	private String content;
 	
 	@ManyToOne

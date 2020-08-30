@@ -42,7 +42,7 @@ public class CommentController {
 		
 		//userId referente ao usuário que comentará
 		
-		if(friendIsAllowedTo(userId, postId) == true) {
+		if(friendIsAllowedTo(userId, postId)) {
 			
 			Optional<Post> post = postRepository.findById(postId);
 			Optional<User> user = userRepository.findById(userId);

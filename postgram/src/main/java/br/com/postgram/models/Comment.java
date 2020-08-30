@@ -3,7 +3,6 @@ package br.com.postgram.models;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -23,7 +21,6 @@ public class Comment {
 	
 	@NotBlank
 	@Size(min=5, max=300)
-	@Pattern(regexp = "^[a-zA-Z0-9 .-]+$")
 	private String content;
 	
 	@OneToMany(mappedBy = "comment")
