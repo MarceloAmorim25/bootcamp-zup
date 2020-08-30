@@ -121,35 +121,29 @@
 ![](/readme-images/passo3.png)
 
 
-### usuário 2 adiciona usuário 1
+### usuário 2 adiciona o usuário 1
 
 
 ![](/readme-images/passo4.png)
 
 
-### usuário 1 adiciona usuário 2
-
-
-![](/readme-images/passo5.png)
-
-
 ### postar
 
-
-![](/readme-images/passo6.png)
+![](/readme-images/passo5.png)
 
 
 ### comentar
 
 
-![](/readme-images/passo7.png)
+![](/readme-images/passo6.png)
 
 
 ### replica
 
+![](/readme-images/passo7.png)
 
-![](/readme-images/passo8.png)
 
+### usuário 1 adiciona 0 usuário 2 (PUT /users/1/follow/2)
 
 ### listar o usuário (GET /users/1)
 
