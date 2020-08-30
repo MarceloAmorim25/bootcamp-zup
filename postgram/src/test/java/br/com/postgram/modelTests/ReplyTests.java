@@ -19,7 +19,7 @@ public class ReplyTests {
 	private ReplyRepository replyRepository;
 
 	@Test
-	public void shouldBeOkToInstanciatePostClass() {
+	public void shouldBeOkToInstanciateReplyClass() {
 		
 		//arrange
 		Reply reply = new Reply();	

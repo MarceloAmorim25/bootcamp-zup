@@ -1,10 +1,8 @@
 package br.com.postgram.models;
 
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,9 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,18 +27,17 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull
+	@NotBlank
 	@Size(min=2,max=40)
 	private String name;
 	
-	@NotNull
+	@NotBlank
 	@Email
 	@Size(min=5)
 	private String email;
-	
-	@NotNull
-	@Size(min=12)
-	private String userPassword;
+		
+	@NotBlank
+	private String userPassword;	
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Profile> profiles = new ArrayList<>();
@@ -51,10 +47,9 @@ public class User implements UserDetails {
 	
 	@OneToMany(mappedBy = "user")
 	private List<Friend> friends = new ArrayList<>();
-		
-	private OffsetDateTime created_at;
-
 	
+	private Boolean isPublic = false;
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -79,6 +74,23 @@ public class User implements UserDetails {
 			return false;
 		return true;
 	}
+	
+
+	public List<Friend> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(List<Friend> friends) {
+		this.friends = friends;
+	}
+
+	public Boolean getIsPublic() {
+		return isPublic;
+	}
+
+	public void setIsPublic(Boolean isPublic) {
+		this.isPublic = isPublic;
+	}
 
 	public Long getId() {
 		return id;
@@ -96,14 +108,6 @@ public class User implements UserDetails {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public OffsetDateTime getCreated_at() {
-		return created_at;
-	}
-
-	public void setCreated_at(OffsetDateTime created_at) {
-		this.created_at = created_at;
-	}
 	
 	public List<Post> getPosts() {
 		return posts;
@@ -113,14 +117,6 @@ public class User implements UserDetails {
 		this.posts = posts;
 	}
 	
-	public List<Friend> getFriends() {
-		return friends;
-	}
-
-	public void setFriends(List<Friend> friends) {
-		this.friends = friends;
-	}
-
 	public String getName() {
 		return name;
 	}

@@ -1,7 +1,5 @@
 package br.com.postgram.modelTests;
-
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +14,10 @@ public class UserTests {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
 
 	@Test
-	public void shouldBeOkToInstanciatePostClass() {
+	public void shouldBeOkToInstanciateUserClass() {
 		
 		//arrange
 		User user = new User();	
@@ -34,6 +33,6 @@ public class UserTests {
 		assertThat(user).isNotNull();
 		assertThat(user.getId()).isNotNull();
 		
-	}
-
+	} 
+    
 }

@@ -16,23 +16,20 @@ public class CommentTests {
 
 	@Autowired
 	private CommentRepository commentRepository;
-
+	
 	@Test
-	public void shouldBeOkToInstanciatePostClass() {
+	public void shouldBeOkToInstanciateCommentClass() {
 		
 		//arrange
-		Comment comment = new Comment();
-		
-		comment.setContent("Testando comentários");
+		Comment comment1 = new Comment();
 		
 		//act
-		
-		commentRepository.save(comment);
+		comment1.setContent("Testando comentários");
+		commentRepository.save(comment1);
 		
 		//assert	
-		assertThat(comment).isNotNull();
-		assertThat(comment.getId()).isNotNull();
-		
+		assertThat(comment1).isNotNull();
+		assertThat(comment1.getId()).isNotNull();	
 		
 	}	
 }

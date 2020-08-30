@@ -1,4 +1,7 @@
 package br.com.postgram.controllers;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.postgram.dtos.ReplyDto;
 import br.com.postgram.models.Comment;
+import br.com.postgram.models.Friend;
 import br.com.postgram.models.Post;
 import br.com.postgram.models.Reply;
 import br.com.postgram.models.User;
@@ -36,29 +40,27 @@ public class ReplyController {
 	
 	@Autowired
 	private CommentRepository commentRepository;
-
+	
 
 	@PostMapping("/users/{userId}/posts/{postId}/comments/{commentId}/replies")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<ReplyDto> create(@Valid @RequestBody Reply reply,
 			@PathVariable Long postId, @PathVariable Long userId,
 			@PathVariable Long commentId) {
-		
-		
-		if(userRepository.existsById(userId) &&
-		   postRepository.existsById(postId) &&
-		   commentRepository.existsById(commentId)) {
+				
+		if(commentRepository.existsById(commentId) &&
+				friendIsAllowedTo(userId, postId)) {
 			
-			Post post = postRepository.findById(postId).orElseThrow();
-			User user = userRepository.findById(userId).orElseThrow();
-			Comment comment = commentRepository.findById(commentId).orElseThrow();
-			
-			reply.setPost(post);
-			reply.setUser(user);
-			reply.setComment(comment);
+			Optional<Post> post = postRepository.findById(postId);
+			Optional<User> user = userRepository.findById(userId);
+			Optional<Comment> comment = commentRepository.findById(commentId);
+						
+			reply.setPost(post.get());
+			reply.setUser(user.get());
+			reply.setComment(comment.get());
 			replyRepository.save(reply);
-			
-			ReplyDto replyDto = new ReplyDto(reply);		
+				
+		    ReplyDto replyDto = new ReplyDto(reply);		
 				
 			return ResponseEntity.ok(replyDto);
 			
@@ -74,19 +76,18 @@ public class ReplyController {
 			@RequestBody Reply reply, @PathVariable Long postId, @PathVariable Long userId,
 			@PathVariable Long commentId) {
 		
-		if(!userRepository.existsById(userId) &&
-		   !postRepository.existsById(postId) &&
-		   !commentRepository.existsById(commentId) &&
-		   !replyRepository.existsById(replyId)) {
-			
-			return ResponseEntity.notFound().build();
-			
+		if(commentRepository.existsById(commentId) &&
+		   replyRepository.existsById(replyId) &&
+		   friendIsAllowedTo(userId, postId)) {
+					
+			reply.setId(replyId);
+			replyRepository.save(reply);
+								
+			return ResponseEntity.ok(reply);
+		
 		}
 		
-		reply.setId(replyId);
-		replyRepository.save(reply);
-		
-		return ResponseEntity.ok(reply);
+		return ResponseEntity.noContent().build();
 	}
 	
 	
@@ -95,22 +96,47 @@ public class ReplyController {
 			@PathVariable Long postId, @PathVariable Long userId,
 			@PathVariable Long commentId){
 		
+		if(commentRepository.existsById(commentId) &&
+		   replyRepository.existsById(replyId) &&	   
+		   friendIsAllowedTo(userId, postId)) {
+			
+			Reply reply = replyRepository.findById(replyId).orElseThrow();
+			replyRepository.delete(reply);
+		}
+
+		return ResponseEntity.noContent().build();
+		
+	}
+	
+	
+	public boolean friendIsAllowedTo(Long userId, Long postId) {
+		
+		//userId referente ao usuário que comentará
+	
+		User userToComment = userRepository.findById(userId).orElseThrow();
+		Post post = postRepository.findById(postId).orElseThrow();
+							
 		if(!userRepository.existsById(userId) &&
-		   !postRepository.existsById(postId) &&
-		   !commentRepository.existsById(commentId) &&
-		   !replyRepository.existsById(replyId)) {
-					
-			return ResponseEntity.notFound().build();
-					
+		   !postRepository.existsById(postId)) {
+				
+			return false;
+		}
+										
+		List<Friend> friends = userToComment.getFriends();
+		Long postIdentification = post.getUser().getId();
+				
+		//verifica se o usuário que comentará na postagem segue o autor do post
+		//por enquanto, apenas usuários autorizados (os quais tiveram seu pedido de seguir aceito)
+		//poderão comentar na postagem
+			
+		List<Friend> userFriend = friends.stream()
+						.filter(f -> f.getId() == postIdentification)
+						.collect(Collectors.toList());
+			
+		if(!userFriend.isEmpty()) {
+			return true;
 		}
 		
-		Reply reply = replyRepository
-				.findById(replyId)
-				.orElseThrow();
-		
-		replyRepository.delete(reply);
-		
-		return ResponseEntity.noContent().build();
-	}
-
+		return false;
+}
 }

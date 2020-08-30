@@ -33,12 +33,11 @@ public class AuthenticationController {
 		UsernamePasswordAuthenticationToken userData = form.convert();
 		
 		try {
-			System.out.println(userData);
-			
+					
 			Authentication authentication = authManager.authenticate(userData);
 			
 			String token = tokenService.generateToken(authentication);	
-					
+							
 			return ResponseEntity.ok(new TokenDto(token, "Bearer"));
 			
 		}catch(AuthenticationException e) {

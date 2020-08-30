@@ -10,7 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -20,8 +21,9 @@ public class Comment {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull
+	@NotBlank
 	@Size(min=5, max=300)
+	@Pattern(regexp = "^[a-zA-Z0-9 .-]+$")
 	private String content;
 	
 	@OneToMany(mappedBy = "comment")
@@ -33,7 +35,7 @@ public class Comment {
 	@ManyToOne
 	private User user;
 	
-	private OffsetDateTime created_at;
+	private OffsetDateTime created_at = OffsetDateTime.now();
 	
 	
 	public List<Reply> getReplies() {

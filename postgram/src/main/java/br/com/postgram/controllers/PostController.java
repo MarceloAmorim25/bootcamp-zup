@@ -1,7 +1,6 @@
 package br.com.postgram.controllers;
 
-
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.postgram.dtos.PostDto;
+import br.com.postgram.exceptions.NotFoundEntityException;
 import br.com.postgram.models.Post;
 import br.com.postgram.models.User;
 import br.com.postgram.repositories.PostRepository;
@@ -31,18 +31,25 @@ public class PostController {
 	@Autowired
 	private UserRepository userRepository;
 	
-		
+	
 	@GetMapping("users/{userId}/posts")
-	public ResponseEntity<List<Post>> getAllPostsByUserId(@PathVariable Long userId) {
+	public ResponseEntity<List<PostDto>> getAllPostsByUserId(@PathVariable Long userId) {
 		
 		if(userRepository.existsById(userId)) {
 			
 			User user = userRepository.findById(userId).orElseThrow();
 			
-			List<Post> posts = user.getPosts();
+			List<Post> posts = user.getPosts();			
+			List<PostDto> postsDtos = new ArrayList<>();
 			
-			return ResponseEntity.ok(posts);
-		}
+			posts.forEach(post -> {		
+				PostDto postDto = new PostDto(post);
+				postsDtos.add(postDto);
+			});
+			
+			return ResponseEntity.ok(postsDtos);
+			
+		}		
 		
 		return ResponseEntity.notFound().build();
 				
@@ -50,13 +57,15 @@ public class PostController {
 
 	
 	@GetMapping("users/{userId}/posts/{postId}")
-	public ResponseEntity<Post> getById(@PathVariable Long postId) {
+	public ResponseEntity<PostDto> getById(@PathVariable Long postId) {
 		
 		Optional<Post> post = postRepository.findById(postId);
 		
 		if(post.isPresent()) {	
 			
-			return ResponseEntity.ok(post.get());
+			PostDto postDto = new PostDto(post.get());
+			
+			return ResponseEntity.ok(postDto);
 		}
 						
 		return ResponseEntity.notFound().build();		
@@ -101,20 +110,22 @@ public class PostController {
 	
 	
 	@DeleteMapping("users/{userId}/posts/{postId}")
-	public ResponseEntity<Void> delete(@PathVariable Long postId){
-		
-		if(!postRepository.existsById(postId)) {
+	public ResponseEntity<?> delete(@PathVariable Long postId){
+						
+		try {
+						
+			Optional<Post> post = postRepository.findById(postId);
+				
+			postRepository.delete(post.get());
+				
+			return ResponseEntity.noContent().build();
+			
+			
+		}catch(NotFoundEntityException e) {
+			
 			return ResponseEntity.notFound().build();
+			
 		}
-		
-		Post post = postRepository
-				.findById(postId)
-				.orElseThrow();
-		
-		postRepository.delete(post);
-		
-		return ResponseEntity.noContent().build();
-	}
-	
-	
+			
+	}	
 }

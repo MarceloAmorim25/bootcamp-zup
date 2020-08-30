@@ -10,7 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -20,8 +21,9 @@ public class Post {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull
+	@NotBlank
 	@Size(min=5, max=300)
+	@Pattern(regexp = "^[a-zA-Z0-9 .-]+$") 
 	private String description;
 	
 	@ManyToOne
@@ -30,9 +32,26 @@ public class Post {
 	@OneToMany(mappedBy = "post")
 	private List<Comment> comments = new ArrayList<>();
 	
-
-	private OffsetDateTime created_at;
+	private String imageURL;
+	
+	private OffsetDateTime createdAt = OffsetDateTime.now();
 		
+	public String getImageURL() {
+		return imageURL;
+	}
+
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
+	}
+
+	public OffsetDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(OffsetDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -73,15 +92,6 @@ public class Post {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-
-	public OffsetDateTime getCreated_at() {
-		return created_at;
-	}
-
-	public void setCreated_at(OffsetDateTime created_at) {
-		this.created_at = created_at;
-	}
 	
 	public User getUser() {
 		return user;
@@ -98,6 +108,14 @@ public class Post {
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-	
 
+	public String getImage() {
+		return imageURL;
+	}
+
+	public void setImage(String imageURL) {
+		this.imageURL = imageURL;
+	}
+	
+	
 }

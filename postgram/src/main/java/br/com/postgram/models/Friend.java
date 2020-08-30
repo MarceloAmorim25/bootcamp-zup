@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+
 
 @Entity
 public class Friend {
@@ -13,13 +15,15 @@ public class Friend {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long id;
 	
-	private String email;
-	
+	@NotBlank
 	private String name;
+	
+	@NotBlank
+	private String email;
 	
 	@ManyToOne
 	private User user;
-	
+
 	public User getUser() {
 		return user;
 	}
@@ -36,20 +40,20 @@ public class Friend {
 		this.id = id;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Override
@@ -76,6 +80,7 @@ public class Friend {
 			return false;
 		return true;
 	}
+	
 	
 	
 }

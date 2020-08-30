@@ -1,4 +1,7 @@
 package br.com.postgram.controllers;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +16,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.postgram.dtos.CommentDto;
 import br.com.postgram.models.Comment;
+import br.com.postgram.models.Friend;
 import br.com.postgram.models.Post;
 import br.com.postgram.models.User;
 import br.com.postgram.repositories.CommentRepository;
 import br.com.postgram.repositories.PostRepository;
 import br.com.postgram.repositories.UserRepository;
-
 
 @RestController
 public class CommentController {
@@ -32,69 +35,92 @@ public class CommentController {
 	@Autowired
 	private UserRepository userRepository;
 
-	
-	@PostMapping("users/{userId}/posts/{postId}/comments")
+	@PostMapping("/users/{userId}/posts/{postId}/comments")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<CommentDto> create(@Valid @RequestBody Comment comment,
 			@PathVariable Long postId, @PathVariable Long userId) {
-			
-			
-		if(userRepository.existsById(userId) && postRepository.existsById(postId)) {
-			
-			User user = userRepository.findById(userId).orElseThrow();
-			Post post = postRepository.findById(postId).orElseThrow();
-
-			comment.setPost(post);
-			comment.setUser(user);
-			
-			commentRepository.save(comment);
-			
-			CommentDto commentDto = new CommentDto(comment);		
-			
-			return ResponseEntity.ok(commentDto);
-		}
 		
-		return ResponseEntity.notFound().build();	
+		//userId referente ao usuário que comentará
+		
+		if(friendIsAllowedTo(userId, postId) == true) {
+			
+			Optional<Post> post = postRepository.findById(postId);
+			Optional<User> user = userRepository.findById(userId);
+				
+			comment.setPost(post.get());
+			comment.setUser(user.get());							
+			commentRepository.save(comment);
+					
+			CommentDto commentDto = new CommentDto(comment);					
+			return ResponseEntity.ok(commentDto);
+							
+		}
+						
+		return ResponseEntity.notFound().build();
+			
 	}
-	
+		
 	
 	@PutMapping("users/{userId}/posts/{postId}/comments/{commentId}")
 	public ResponseEntity<Comment> update(@Valid @PathVariable Long commentId,
 			@RequestBody Comment comment, @PathVariable Long postId, 
 			@PathVariable Long userId) {
 		
-		if(!userRepository.existsById(userId) &&
-		   !postRepository.existsById(postId) &&
-		   !commentRepository.existsById(commentId)) {
+		if(commentRepository.existsById(commentId) &&
+				friendIsAllowedTo(userId, postId)) {
 			
-			return ResponseEntity.notFound().build();
+			comment.setId(commentId);
+			commentRepository.save(comment);
+			return ResponseEntity.ok(comment);
+				
 		}
 		
-		comment.setId(commentId);
-		commentRepository.save(comment);
-		
-		return ResponseEntity.ok(comment);
+		return ResponseEntity.notFound().build();
 	}
 	
-	
+
 	@DeleteMapping("users/{userId}/posts/{postId}/comments/{commentId}")
 	public ResponseEntity<Void> delete(@PathVariable Long commentId, @PathVariable Long postId, 
 			@PathVariable Long userId){
 		
-		if(!userRepository.existsById(userId) &&
-		   !postRepository.existsById(postId) &&
-		   !commentRepository.existsById(commentId)) {
+		if(commentRepository.existsById(commentId)&&
+				friendIsAllowedTo(userId, postId)) {
 			
-			return ResponseEntity.notFound().build();
+
+			Optional<Comment> comment = commentRepository.findById(commentId);
+			commentRepository.delete(comment.get());
+			
+		}
+
+		return ResponseEntity.noContent().build();
+		
+	}
+	
+	
+	public boolean friendIsAllowedTo(Long userId, Long postId) {
+		
+		//userId referente ao usuário que comentará
+	
+		User userToComment = userRepository.findById(userId).orElseThrow();
+		Post post = postRepository.findById(postId).orElseThrow();
+							
+		if(!userRepository.existsById(userId) &&
+		   !postRepository.existsById(postId)) {
+				
+			return false;
+		}
+										
+		List<Friend> friends = userToComment.getFriends();
+		Long postIdentification = post.getUser().getId();
+						
+		List<Friend> userFriend = friends.stream()
+						.filter(f -> f.getId() == postIdentification)
+						.collect(Collectors.toList());
+			
+		if(!userFriend.isEmpty()) {
+			return true;
 		}
 		
-		Comment post = commentRepository
-				.findById(commentId)
-				.orElseThrow();
-		
-		commentRepository.delete(post);
-		
-		return ResponseEntity.noContent().build();
+		return false;
 	}
-
 }

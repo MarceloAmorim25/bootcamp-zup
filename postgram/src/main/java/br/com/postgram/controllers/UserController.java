@@ -1,5 +1,7 @@
 package br.com.postgram.controllers;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import br.com.postgram.dtos.UserDto;
 import br.com.postgram.models.User;
 import br.com.postgram.repositories.UserRepository;
@@ -22,17 +23,21 @@ public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
-
+	
 
 	@GetMapping("/users/{userId}")
-	public UserDto getById(@PathVariable Long userId) {
+	public ResponseEntity<UserDto> getById(@PathVariable Long userId) {
 		
-		User user = userRepository.findById(userId).orElseThrow();
-		
-		UserDto userDto = new UserDto(user);
-		
-	    return userDto;	
+		if(userRepository.existsById(userId)) {
+
+			User user = userRepository.findById(userId).orElseThrow();
 					
+			UserDto userDto = new UserDto(user);
+			
+		    return ResponseEntity.ok(userDto);	
+		}
+		
+		return ResponseEntity.noContent().build(); 
 	}
 	
 	
@@ -59,6 +64,7 @@ public class UserController {
 		}
 		
 		user.setId(userId);
+
 		userRepository.save(user);
 		
 		return ResponseEntity.ok(user);
@@ -67,16 +73,15 @@ public class UserController {
 	
 	@DeleteMapping("/users/{userId}")
 	public ResponseEntity<Void> delete(@PathVariable Long userId){
+	
 		
 		if(!userRepository.existsById(userId)) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		User user = userRepository
-				.findById(userId)
-				.orElseThrow();
+		Optional<User> user = userRepository.findById(userId);
 		
-		userRepository.delete(user);
+		userRepository.delete(user.get());
 		
 		return ResponseEntity.noContent().build();
 	}

@@ -7,7 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -17,8 +18,9 @@ public class Reply {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull
+	@NotBlank
 	@Size(min=5, max=300)
+	@Pattern(regexp = "^[a-zA-Z0-9 .-]+$") 
 	private String content;
 	
 	@ManyToOne
@@ -30,7 +32,7 @@ public class Reply {
 	@ManyToOne
 	private Comment comment;
 	
-	private OffsetDateTime created_at;
+	private OffsetDateTime created_at = OffsetDateTime.now();
 	
 	@Override
 	public int hashCode() {
